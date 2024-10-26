@@ -1,24 +1,26 @@
 import { Schema, Model } from "mongoose";
 
-const GroupsSchema = new Schema ([
+const TeamsSchema = new Schema ([
     {
         name :{
             type : String,
             required : true
         }
     },{
-        members : []
+        is_members : []
     },{
-        lider : {
+        leader : {
             type : Schema.Types.ObjectId,
             required : true
         }
     },{
-        ronda : {
+        round : {
             type : Number,
-            required : true
+            default:0
         }
     },{
         grades : []
     }
 ])
+
+export const TeamsModel = model("teams", TeamsSchema);

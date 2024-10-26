@@ -7,6 +7,11 @@ const UserSchema = new Schema ([
             required : true
         }
     },{
+        password : {
+            type : String,
+            required : true
+        }
+    },{
         email : {
             type : String,
             required : true
@@ -17,7 +22,7 @@ const UserSchema = new Schema ([
             required : true
         }
     },{
-        rols : {
+        rol : {
             type : String,
             enum:["Administrator", "Participant", "Judge"],
             lowercase: true,
@@ -25,3 +30,5 @@ const UserSchema = new Schema ([
         }
     }
 ])
+
+export const UserModel = model("user", UserSchema);

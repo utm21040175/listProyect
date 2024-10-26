@@ -2,7 +2,12 @@ import { Schema, Model } from "mongoose";
 
 const EventSchema = new Schema ([
     {
-        mettrics: [
+        name :{
+            type: String,
+            required: true
+        }
+    },{
+        metrics: [
             {
                 description: {
                     type: String,
@@ -16,16 +21,21 @@ const EventSchema = new Schema ([
 
         ]
     },{
-        round : {
+        maxRound : {
             type: Numeber,
             required : true
+        }
+    },{
+        round : {
+            type: Numeber,
+            default: 0
         }
     },{
         status : {
             type : String,
             enum:["Pending", "Active", "Done"],
             lowercase: true,
-            required : true
+            default: "Pending"
         }
     },{
         groups : []

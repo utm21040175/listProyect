@@ -2,21 +2,36 @@ import { Schema, Model } from "mongoose";
 
 const GradesSchema = new Schema ([
     {
-        id_groups : {
+        id_group : {
             type : Schema.Types.ObjectId,
             required : true
         }
     },{
-        ronda : {
+        round : {
             type : Number,
             required : true
         }
     },{
-        id_events : {
+        id_event : {
             type : Schema.Types.ObjectId,
             required : true
         }
     },{
-        grades :[]
+        grades :[{
+            id_metric :{
+                type : Schema.Types.ObjectId,
+                required : true
+            },
+            grade : {
+                type : Number,
+                required : true
+            }, 
+            id_judge : {
+                type : Schema.Types.ObjectId,
+                required : true
+            }
+        }]
     }
 ])
+
+export const GradesModel = model("grades", GradesSchema);
