@@ -6,6 +6,8 @@ import {
 } from "react-router-dom"
 import { RegisterParticipant } from './participants/RegisterParticipant';
 import { Login } from './components/Login';
+import { CreateEvent } from './admins/CreateEvent'
+
 
 const router = createBrowserRouter([
   {
@@ -17,6 +19,9 @@ const router = createBrowserRouter([
   },{
     path: "/recover-password",
     element: <div>HOLA RECOVERPASSWORD</div>
+  },{
+    path: "/event",
+    element: <CreateEvent/>
   }
 ])
 function App() {
