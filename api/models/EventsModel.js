@@ -1,4 +1,4 @@
-import { Schema, Model } from "mongoose";
+import { Schema, model } from "mongoose";
 
 const EventSchema = new Schema ([
     {
@@ -22,18 +22,19 @@ const EventSchema = new Schema ([
         ]
     },{
         maxRound : {
-            type: Numeber,
+            type: Number,
             required : true
         }
     },{
         round : {
-            type: Numeber,
+            type: Number,
             default: 0
         }
+        
     },{
         status : {
             type : String,
-            enum:["Pending", "Active", "Done"],
+            enum:["pending", "active", "done"],
             lowercase: true,
             default: "Pending"
         }

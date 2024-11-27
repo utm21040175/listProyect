@@ -1,4 +1,4 @@
-import { Schema, Model } from "mongoose";
+import { Schema, model } from "mongoose";
 
 const TeamsSchema = new Schema ([
     {
@@ -7,9 +7,9 @@ const TeamsSchema = new Schema ([
             required : true
         }
     },{
-        is_members : []
+        id_members : []
     },{
-        leader : {
+        id_leader : {
             type : Schema.Types.ObjectId,
             required : true
         }
@@ -23,4 +23,4 @@ const TeamsSchema = new Schema ([
     }
 ])
 
-export const TeamsModel = model("teams", TeamsSchema);
+export const GroupsModel = model("groups", TeamsSchema);

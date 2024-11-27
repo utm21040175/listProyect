@@ -1,4 +1,4 @@
-import { Schema, Model } from "mongoose";
+import { Schema, model } from "mongoose";
 
 const UserSchema = new Schema ([
     {
@@ -24,7 +24,7 @@ const UserSchema = new Schema ([
     },{
         rol : {
             type : String,
-            enum:["Administrator", "Participant", "Judge"],
+            enum:["administrator", "participant", "judge"],
             lowercase: true,
             required : true
         }

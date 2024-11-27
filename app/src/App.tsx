@@ -1,11 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import { Login } from './components/login';
 
+import './App.css';
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom"
+import { RegisterParticipant } from './participants/RegisterParticipant';
+import { Login } from './components/Login';
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Login/>
+  },{
+    path: "/register",
+    element: <RegisterParticipant/>
+  },{
+    path: "/recover-password",
+    element: <div>HOLA RECOVERPASSWORD</div>
+  }
+])
 function App() {
   return (
-    <Login></Login>
+    <RouterProvider router={router}/>
   );
 }
 
