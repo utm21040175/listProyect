@@ -35,7 +35,6 @@ export const RegisterParticipant = ()=>{
             } catch (error: any) {
                 Swal.fire("Algo salio mal", error.response.msg , "error")
             }
-
         }
     return(
         <Container>

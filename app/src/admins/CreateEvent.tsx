@@ -1,77 +1,96 @@
-import React, { Fragment, useState } from "react"
-import { Container, FormControl, FormLabel, FormGroup, Form, CardBody, CardTitle, Card, Button } from "react-bootstrap"
+import { useState } from "react";
+import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
 import Swal from "sweetalert2";
 import axios from "axios";
 
-type IEvent = {
-    name: string,
-    metrics: [{ description: string, max_points: number }],
-    maxRound: number
-}
+
+
 export const CreateEvent = () => {
+  const [Values, setValues] = useState<{ //estado inicial con un array de objetos con los parametros necesarios
+    description: string, max_points: number | null }[]>([{ description: "", max_points: null }]);
 
-    const [data, setData] = useState<IEvent>({
-        name: "",
-        metrics: [{
-            description: "",
-            max_points: 0,
-        }],
-        maxRound: 0
-    });
+  // Función para actualizar el nuevo estado
+  const addInput = () => {
+    setValues([...Values, { description: "", max_points: null }]);
+  };
 
-    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        e.preventDefault()
-        const tempoData: any = data
-        tempoData[e.target.name] = e.target.value;
-        setData(tempoData);
+  // Función para manejar el cambio en un input
+  const createEvent = (index: number, name: string, value: string) => {
+    const lastValues = [...Values];
+    if (name === "description") {
+      lastValues[index].description = value;
+    } else if (name === "max_points") {
+      lastValues[index].max_points = value ? parseInt(value) : null;
     }
-    const onSumit = async () => {
+    setValues(lastValues);
+  };
+  //funcion para subir a la base de datos la informacion
+  const onSumit = async()=>{
         try {
             Swal.fire("Guardando datos");
             Swal.showLoading()
-            await axios.post("http://localhost:4000/event/createEvent", data)
+            await axios.post("http://localhost:4000/event/createEvent", Values)
             Swal.fire("Datos validados con exito", "", "success");
         } catch (error: any) {
-            Swal.fire("Algo salio mal", error.response.msg, "error")
+            Swal.fire("Algo salio mal", error.response.msg , "error")
         }
     }
-        
-    return (
-        <Container>
-            <Card>
-                <Card.Body>
-                    <CardTitle>Crear evento.</CardTitle>
-                    <Form>
-                        <Form.Group>
-                            <Form.Label>Nombre:</Form.Label>
-                            <FormControl name="name" onChange={onChange}></FormControl>
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Label>Numero de rondas:</Form.Label>
-                            <FormControl name="email" onChange={onChange}></FormControl>
-                        </Form.Group>
-                    </Form>
-                    <br></br>
-                    <Card>
-                        <Card.Body>
-                            <Form>
-                                <Card.Title>Metrics: </Card.Title>
-                                <Form.Group>
-                                    <Form.Label>Descripcion: </Form.Label>
-                                    <FormControl name="description" onChange={onChange}></FormControl>
-                                </Form.Group>
-                                <Form.Group>
-                                    <Form.Label>Maximo de puntos: </Form.Label>
-                                    <FormControl name="max_points" onChange={onChange}></FormControl>
-                                </Form.Group>
-                                <Button>Añadir metrica</Button>
-                            </Form>
-                        </Card.Body>
-                    </Card>
-                    <br></br>
-                    <Button onClick={() => onSumit()}>Registrate</Button>
-                </Card.Body>
-            </Card>
-        </Container>
-    )
-}
+
+  return (
+    <Container>
+      <Card>
+        <Card.Body>
+          <Card.Title>Crear Evento</Card.Title>
+          <Form>
+            <Row>
+              <Col>
+                <Form.Group>
+                  <Form.Label>Título del evento</Form.Label>
+                  <Form.Control name="title" />
+                </Form.Group>
+              </Col>
+              <Col>
+                <Form.Group>
+                  <Form.Label>Número de rondas</Form.Label>
+                  <Form.Control name="rounds" />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Card.Subtitle className="text-center mt-4 mb-3">Métricas</Card.Subtitle>
+            {Values.map((value, i) => (
+              <div key={i} className="mb-3">
+                <Form.Group>
+                  <Form.Label>Descripción</Form.Label>
+                  <Form.Control
+                    name="description"
+                    value={value.description}
+                    onChange={(e) => createEvent(i, e.target.name, e.target.value)}
+                  />
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label>Calificación máxima</Form.Label>
+                  <Form.Control
+                    name="max_points"
+                    type="number"
+                    value={value.max_points ?? ""}
+                    onChange={(e) => createEvent(i, e.target.name, e.target.value)}
+                  />
+                </Form.Group>
+              </div>
+            ))}
+            <Row className="text-center">
+              <Col>
+                <Button className="m-3" onClick={addInput}>Añadir Métrica</Button>
+              </Col>
+            </Row>
+            <Row className="text-center">
+              <Col>
+                <Button className="m-3" onSubmit={()=>onSumit()}>Crear evento</Button>
+              </Col>
+            </Row>
+          </Form>
+        </Card.Body>
+      </Card>
+    </Container>
+  );
+};
